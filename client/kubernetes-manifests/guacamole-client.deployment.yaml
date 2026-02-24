@@ -38,6 +38,8 @@
           app: guacamole-client
       spec:
         serviceAccountName: svc-guacamole
+        nodeSelector:
+          cloud.google.com/compute-class: Performance
         containers:
         - name: guacamole-client
           image: guacamole-client-iap
@@ -52,8 +54,8 @@
                 name: db-user-pass
           resources:
             limits:
-              cpu: 1000m
-              memory: 2000Mi
+              cpu: 2000m
+              memory: 4000Mi
             requests:
               cpu: 1000m
               memory: 2000Mi

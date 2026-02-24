@@ -37,16 +37,19 @@
         labels:
           app: guacamole-server
       spec:
+        nodeSelector:
+          cloud.google.com/compute-class: Performance
+          cloud.google.com/machine-family: c4d
         containers:
         - name: guacamole-server
-          image: docker.io/guacamole/guacd:1.5.5
+          image: docker.io/guacamole/guacd:1.6.0
           imagePullPolicy: IfNotPresent
           resources:
             limits:
-              cpu: 2000m
+              cpu: 4000m
               memory: 4Gi
             requests:
-              cpu: 1000m
+              cpu: 2000m
               memory: 2Gi
           ports:
           - containerPort: 4822
