@@ -42,7 +42,8 @@ locals {
     "roles/logging.logWriter",
     "roles/monitoring.metricWriter",
     "roles/monitoring.viewer",
-    "roles/stackdriver.resourceMetadata.writer"
+    "roles/stackdriver.resourceMetadata.writer",
+    "roles/artifactregistry.reader"
   ]
 
   remote_url = var.external_url == "sslip.io" ? lookup(data.external.wildcard-dns-url.result, "certdomain", "unknown") : var.external_url
