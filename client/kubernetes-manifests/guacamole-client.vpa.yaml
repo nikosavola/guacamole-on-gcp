@@ -13,22 +13,15 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-apiVersion: cloud.google.com/v1
-kind: BackendConfig
+apiVersion: autoscaling.k8s.io/v1
+kind: VerticalPodAutoscaler
 metadata:
-    name: guacamole-config-default
-    namespace: guacamole
+  name: guacamole-client-vpa
+  namespace: guacamole
 spec:
-    healthCheck:
-        checkIntervalSec: 15
-        port: 8080
-        type: HTTP
-        requestPath: /guacamole/index.html
-    # This timeout is how long the websocket used by Guacamole client can remain open
-    timeoutSec: 7200
-    sessionAffinity:
-        affinityType: "GENERATED_COOKIE"
-        affinityCookieTtlSec: 3600
-    iap:
-        enabled: true
-    
+  targetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: guacamole-client
+  updatePolicy:
+    updateMode: "Auto"

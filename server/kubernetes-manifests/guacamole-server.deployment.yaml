@@ -24,7 +24,8 @@
   spec:
     # replicas: not specified here:
     # 1. Default is 1.
-    # 2. Will be tuned in real time if DNS horizontal auto-scaling is turned on.
+    # 2. Will be tuned in real time by HorizontalPodAutoscaler.
+    # 3. VerticalPodAutoscaler will manage resource requests.
     strategy:
       type: RollingUpdate
       rollingUpdate:
