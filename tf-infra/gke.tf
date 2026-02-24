@@ -14,12 +14,13 @@
 # limitations under the License.
 
 resource "google_container_cluster" "gke" {
-  provider           = google
-  name               = "guacamole-gke"
-  location           = var.region
-  networking_mode    = "VPC_NATIVE"
-  network            = google_compute_network.vpc.id
-  subnetwork         = google_compute_subnetwork.subnet.name
+  provider            = google
+  name                = "guacamole-gke"
+  location            = var.region
+  networking_mode     = "VPC_NATIVE"
+  network             = google_compute_network.vpc.id
+  subnetwork          = google_compute_subnetwork.subnet.id
+  deletion_protection = false
 
   private_cluster_config {
     enable_private_nodes    = true
@@ -29,15 +30,13 @@ resource "google_container_cluster" "gke" {
 
   enable_autopilot = true
 
-  #Updated to TF Provider 5.6, no longer need to explicityly define the below block, as it's the default now
-  #When using TF provider <4.80, need to explicitly define CLOUD_DNS as cluster_dns per b/295958728
-  #dns_config {
-  #  cluster_dns        = "CLOUD_DNS"
-  #  cluster_dns_domain = "cluster.local"
-  #  cluster_dns_scope  = "CLUSTER_SCOPE"
-  #}
-
   ip_allocation_policy {}
+
+  maintenance_policy {
+    recurring_window {
+      start_time = "2026-01-01T00:00:00Z" # Standardized start time
+      end_time   = "2026-01-02T00:00:00Z"
+      recurrence = "FREQ=WEEKLY;BYDAY=SU" # Limit upgrades to Sundays
+    }
+  }
 }
-
-
