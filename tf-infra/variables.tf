@@ -10,7 +10,7 @@ variable "region" {
 
 variable "zone" {
   description = "For zonal Guacamole resources, deploy into this zone"
-  default     = "us-central1-c"
+  default     = "us-central1-a"
 }
 
 variable "network_name" {

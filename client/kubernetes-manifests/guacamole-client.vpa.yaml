@@ -24,4 +24,4 @@ spec:
     kind: Deployment
     name: guacamole-client
   updatePolicy:
-    updateMode: "Auto"
+    updateMode: "Off"

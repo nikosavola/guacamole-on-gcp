@@ -68,7 +68,7 @@
             httpGet:
               path: /guacamole
               port: serving-port
-            failureThreshold: 1
+            failureThreshold: 3
             periodSeconds: 10
             initialDelaySeconds: 60
             timeoutSeconds: 5 
@@ -78,7 +78,8 @@
               port: serving-port
             failureThreshold: 30
             periodSeconds: 10
-            initialDelaySeconds: 20
+            initialDelaySeconds: 120
+            timeoutSeconds: 5
         volumes:
           - name: config-volume
             configMap:
