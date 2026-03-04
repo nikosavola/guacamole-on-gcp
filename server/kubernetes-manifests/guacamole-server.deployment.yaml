@@ -22,10 +22,7 @@
       app: guacamole-server
       tier: backend
   spec:
-    # replicas: not specified here:
-    # 1. Default is 1.
-    # 2. Will be tuned in real time by HorizontalPodAutoscaler.
-    # 3. VerticalPodAutoscaler will manage resource requests.
+    replicas: 2
     strategy:
       type: RollingUpdate
       rollingUpdate:
