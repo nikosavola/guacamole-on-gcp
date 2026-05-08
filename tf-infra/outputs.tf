@@ -23,6 +23,11 @@ output "db_address" {
   description = "Private IP Address for MySQL Database"
 }
 
+output "db_instance_name" {
+  value       = "${var.project_id}:${var.region}:${google_sql_database_instance.guacamole-mysql.name}"
+  description = "Cloud SQL instance connection name (project:region:instance)"
+}
+
 output "db_username" {
   value       = google_sql_user.guac-db-user.name
   description = "Guacamole DB User Name"
@@ -48,6 +53,11 @@ output "external_url" {
 output "oauth_authorized_redirect_url" {
   value       = "https://iap.googleapis.com/v1/lauth/cliendIds/${google_iap_client.project_client.client_id}:handleRedirect"
   description = "Universal Redirect URL to be added to OAuth Credentials via Google Cloud Console."
+}
+
+output "iap_brand_name" {
+  value       = local.iap_brand
+  description = "IAP brand name for this project (singleton per project, pass to secondary deployments)"
 }
 
 output "db_mgmt_vm" {
