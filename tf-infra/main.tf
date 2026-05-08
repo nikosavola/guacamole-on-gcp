@@ -19,12 +19,6 @@ provider "google" {
   project = var.project_id
 }
 
-#provider "google-beta" {
-#  region  = var.region
-#  zone    = var.zone
-#  project = var.project_id
-#}
-
 provider "null" {
 }
 
@@ -46,6 +40,8 @@ locals {
   ]
 
   remote_url = var.external_url == "sslip.io" ? lookup(data.external.wildcard-dns-url.result, "certdomain", "unknown") : var.external_url
+
+  iap_brand = var.iap_brand_name != null ? var.iap_brand_name : google_iap_brand.project_brand[0].name
 }
 
 resource "random_id" "suffix" {
@@ -67,12 +63,6 @@ resource "random_password" "keystore_password" {
   special = false
 }
 
-#resource "google_project_service" "project_services" {
-#  for_each = toset(var.required_apis)
-#  project  = var.project_id
-#  service  = each.value
-#}
-
 module "project-services" {
   source = "terraform-google-modules/project-factory/google//modules/project_services"
 
@@ -82,6 +72,7 @@ module "project-services" {
 }
 
 resource "google_iap_brand" "project_brand" {
+  count             = var.iap_brand_name == null ? 1 : 0
   depends_on        = [module.project-services]
   support_email     = data.google_client_openid_userinfo.me.email
   application_title = "Guacamole on GKE Tutorial"
@@ -89,19 +80,9 @@ resource "google_iap_brand" "project_brand" {
 }
 
 resource "google_iap_client" "project_client" {
-  display_name = "Guacamole IAP Client"
-  brand        = google_iap_brand.project_brand.name
+  display_name = "Guacamole IAP Client${var.name_suffix}"
+  brand        = local.iap_brand
 }
-
-#resource "google_container_registry" "registry" {
-#  depends_on = [module.project-services]
-#}
-
-#resource "google_storage_bucket_iam_member" "gke-read-cloudrepo" {
-#  bucket = google_container_registry.registry.id
-#  role   = "roles/storage.objectViewer"
-#  member = "serviceAccount:${google_service_account.svc-gke-node.email}"
-#}
 
 data "google_compute_default_service_account" "default" {}
 
@@ -118,7 +99,3 @@ data "external" "wildcard-dns-url" {
     externalip = google_compute_global_address.guacamole-external.address
   }
 }
-
-
-
-
