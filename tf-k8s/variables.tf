@@ -17,3 +17,9 @@ variable "cluster_name" {
   description = "GKE Cluster to host Guacamole"
   default     = "guacamole-gke"
 }
+
+variable "custom_role_id" {
+  description = "Project-level custom role ID for IAP JWT verification"
+  type        = string
+  default     = "iap_jwt_verifier"
+}
