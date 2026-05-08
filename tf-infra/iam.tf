@@ -33,6 +33,11 @@ resource "google_project_iam_custom_role" "iap-jwt-verify-role" {
   permissions = ["compute.backendServices.get"]
 }
 
+moved {
+  from = google_project_iam_custom_role.iap-jwt-verify-role
+  to   = google_project_iam_custom_role.iap-jwt-verify-role[0]
+}
+
 resource "google_service_account" "svc-gke-node" {
   account_id  = "svc-gke-node${var.name_suffix}"
   description = "GKE Node Service Account"
