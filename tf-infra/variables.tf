@@ -58,3 +58,21 @@ variable "required_apis" {
     "sqladmin.googleapis.com",
   "stackdriver.googleapis.com"]
 }
+
+variable "name_suffix" {
+  description = "Suffix to append to resource names, enabling multiple deployments in the same project."
+  type        = string
+  default     = ""
+}
+
+variable "iap_brand_name" {
+  description = "Existing IAP brand name. If null, a new brand will be created (only one per project)."
+  type        = string
+  default     = null
+}
+
+variable "create_custom_role" {
+  description = "Whether to create the IAP JWT verifier custom role. Set false when the role already exists (e.g. a second deployment in the same project)."
+  type        = bool
+  default     = true
+}
