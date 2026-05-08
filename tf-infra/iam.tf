@@ -1,4 +1,3 @@
-
 # 
 # Copyright 2020 Google LLC
 #
@@ -26,21 +25,8 @@ resource "google_project_iam_member" "iap-web-user" {
   member  = "user:${data.google_client_openid_userinfo.me.email}"
 }
 
-#resource "google_service_account" "cluster_service_account" {
-#  account_id   = "svc-guacamole"
-#  display_name = "svc-guacamole"
-#  description  = "GCP SA bound to K8S SA"
-#  project      = var.project_id
-#}
-
-#resource "google_service_account_iam_member" "main" {
-#  depends_on         = [google_container_cluster.gke]
-#  service_account_id = google_service_account.cluster_service_account.name
-#  role               = "roles/iam.workloadIdentityUser"
-#  member             = "serviceAccount:${var.project_id}.svc.id.goog[guacamole/svc-guacamole]"
-#}
-
 resource "google_project_iam_custom_role" "iap-jwt-verify-role" {
+  count       = var.create_custom_role ? 1 : 0
   role_id     = "iap_jwt_verifier"
   title       = "IAP JWT Verifier"
   description = "Retrieve metadata related to IAP JWT Verification"
@@ -48,7 +34,7 @@ resource "google_project_iam_custom_role" "iap-jwt-verify-role" {
 }
 
 resource "google_service_account" "svc-gke-node" {
-  account_id  = "svc-gke-node"
+  account_id  = "svc-gke-node${var.name_suffix}"
   description = "GKE Node Service Account"
 }
 
