@@ -15,7 +15,7 @@
 
 resource "google_container_cluster" "gke" {
   provider           = google
-  name               = "guacamole-gke"
+  name               = "guacamole-gke${var.name_suffix}"
   location           = var.region
   networking_mode    = "VPC_NATIVE"
   network            = google_compute_network.vpc.id
@@ -39,5 +39,3 @@ resource "google_container_cluster" "gke" {
 
   ip_allocation_policy {}
 }
-
-
