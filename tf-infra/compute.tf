@@ -20,20 +20,20 @@ resource "google_compute_network" "vpc" {
 }
 
 resource "google_compute_subnetwork" "subnet" {
-  name          = "guacamole-host-subnet"
+  name          = "guacamole-host-subnet${var.name_suffix}"
   region        = var.region
   network       = google_compute_network.vpc.name
   ip_cidr_range = "10.10.0.0/24"
 }
 
 resource "google_compute_router" "router" {
-  name    = "guacamole-router"
+  name    = "guacamole-router${var.name_suffix}"
   region  = google_compute_subnetwork.subnet.region
   network = google_compute_network.vpc.id
 }
 
 resource "google_compute_router_nat" "nat" {
-  name                               = "guacamole-router-nat"
+  name                               = "guacamole-router-nat${var.name_suffix}"
   router                             = google_compute_router.router.name
   region                             = google_compute_router.router.region
   nat_ip_allocate_option             = "AUTO_ONLY"
@@ -42,7 +42,7 @@ resource "google_compute_router_nat" "nat" {
 
 resource "google_compute_global_address" "private_ip_address" {
   provider      = google
-  name          = "private-ip-address"
+  name          = "private-ip-address${var.name_suffix}"
   purpose       = "VPC_PEERING"
   address_type  = "INTERNAL"
   prefix_length = 16
@@ -74,7 +74,7 @@ resource "google_compute_instance" "db-management" {
 }
 
 resource "google_compute_firewall" "vpc-firewall" {
-  name    = "permit-ssh-via-iap"
+  name    = "permit-ssh-via-iap${var.name_suffix}"
   network = google_compute_network.vpc.name
 
   allow {
@@ -86,7 +86,7 @@ resource "google_compute_firewall" "vpc-firewall" {
 }
 
 resource "google_compute_firewall" "permit-guac-to-vm-traffic" {
-  name    = "permit-guacd-to-vm-traffic"
+  name    = "permit-guacd-to-vm-traffic${var.name_suffix}"
   network = google_compute_network.vpc.name
 
   allow {
@@ -99,6 +99,6 @@ resource "google_compute_firewall" "permit-guac-to-vm-traffic" {
 
 resource "google_compute_global_address" "guacamole-external" {
   description  = "External IP Address Reservation for the Load Balancer"
-  name         = "guacamole-external"
+  name         = "guacamole-external${var.name_suffix}"
   address_type = "EXTERNAL"
 }
