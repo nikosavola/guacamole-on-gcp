@@ -79,6 +79,11 @@ resource "google_iap_brand" "project_brand" {
   project           = var.project_id
 }
 
+moved {
+  from = google_iap_brand.project_brand
+  to   = google_iap_brand.project_brand[0]
+}
+
 resource "google_iap_client" "project_client" {
   display_name = "Guacamole IAP Client${var.name_suffix}"
   brand        = local.iap_brand
