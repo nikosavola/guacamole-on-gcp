@@ -45,5 +45,5 @@ module "guacamole-workload-identity" {
   project_id                      = var.project_id
   use_existing_k8s_sa             = false
   automount_service_account_token = true
-  roles                           = ["projects/${var.project_id}/roles/iap_jwt_verifier"]
+  roles                           = ["projects/${var.project_id}/roles/${var.custom_role_id}"]
 }
