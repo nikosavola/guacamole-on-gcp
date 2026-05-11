@@ -61,8 +61,8 @@ resource "google_sql_ssl_cert" "db-client-cert" {
 }
 
 data "external" "db-client-cert-keystore" {
-  program     = ["bash", "${path.module}/tf-infra/bin/generate-keystore.sh"]
-  working_dir = "../"
+  program     = ["bash", "${path.module}/bin/generate-keystore.sh"]
+  working_dir = "${path.module}/.."
 
   query = {
     keystore_password = "${random_password.keystore_password.result}"
