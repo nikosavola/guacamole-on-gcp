@@ -40,8 +40,6 @@ locals {
   ]
 
   remote_url = var.external_url == "sslip.io" ? lookup(data.external.wildcard-dns-url.result, "certdomain", "unknown") : var.external_url
-
-  iap_brand = var.iap_brand_name != null ? var.iap_brand_name : google_iap_brand.project_brand[0].name
 }
 
 resource "random_id" "suffix" {
@@ -71,24 +69,6 @@ module "project-services" {
   activate_apis = toset(var.required_apis)
 }
 
-resource "google_iap_brand" "project_brand" {
-  count             = var.iap_brand_name == null ? 1 : 0
-  depends_on        = [module.project-services]
-  support_email     = data.google_client_openid_userinfo.me.email
-  application_title = "Guacamole on GKE Tutorial"
-  project           = var.project_id
-}
-
-moved {
-  from = google_iap_brand.project_brand
-  to   = google_iap_brand.project_brand[0]
-}
-
-resource "google_iap_client" "project_client" {
-  display_name = "Guacamole IAP Client${var.name_suffix}"
-  brand        = local.iap_brand
-}
-
 data "google_compute_default_service_account" "default" {}
 
 data "google_client_openid_userinfo" "me" {}
@@ -98,7 +78,7 @@ data "google_client_config" "provider" {}
 data "google_project" "project" {}
 
 data "external" "wildcard-dns-url" {
-  program = ["./bin/sslip-io-url.sh"]
+  program = ["${path.module}/bin/sslip-io-url.sh"]
 
   query = {
     externalip = google_compute_global_address.guacamole-external.address
