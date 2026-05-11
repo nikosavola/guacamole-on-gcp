@@ -40,7 +40,8 @@ resource "kubernetes_namespace" "guacamole-ns" {
 
 module "guacamole-workload-identity" {
   source                          = "terraform-google-modules/kubernetes-engine/google//modules/workload-identity"
-  name                            = "svc-guacamole${var.name_suffix}"
+  name                            = "svc-guacamole"
+  gcp_sa_name                     = "svc-guacamole${var.name_suffix}"
   namespace                       = kubernetes_namespace.guacamole-ns.metadata[0].name
   project_id                      = var.project_id
   use_existing_k8s_sa             = false

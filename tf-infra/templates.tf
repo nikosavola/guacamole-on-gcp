@@ -35,6 +35,13 @@ resource "local_file" "guacamole-client-managedcert" {
   filename = "${path.module}/../client/kubernetes-manifests/guacamole-client.managedcert.yaml"
 }
 
+resource "local_file" "guacamole-client-ingress" {
+  content = templatefile("${path.module}/templates/guacamole-client.ingress.yaml.tmpl", {
+    global_ip_name = google_compute_global_address.guacamole-external.name
+  })
+  filename = "${path.module}/../client/kubernetes-manifests/guacamole-client.ingress.yaml"
+}
+
 resource "local_file" "client-settings-properties" {
   content = templatefile("${path.module}/templates/client-settings.properties.tmpl", {
     db_address           = google_sql_database_instance.guacamole-mysql.private_ip_address
