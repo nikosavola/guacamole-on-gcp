@@ -23,3 +23,9 @@ variable "custom_role_id" {
   type        = string
   default     = "iap_jwt_verifier"
 }
+
+variable "name_suffix" {
+  description = "Suffix appended to resource names to allow multiple deployments in the same project."
+  type        = string
+  default     = ""
+}
