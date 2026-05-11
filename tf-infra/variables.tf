@@ -76,3 +76,9 @@ variable "create_custom_role" {
   type        = bool
   default     = true
 }
+
+variable "enable_public_ip" {
+  type        = bool
+  default     = false
+  description = "Enable public IP on Cloud SQL (required when accessed from outside the VPC, e.g. from a second App Engine deployment that cannot use a second VPC connector)."
+}

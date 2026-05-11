@@ -35,7 +35,7 @@ resource "google_sql_database_instance" "guacamole-mysql" {
   settings {
     tier = "db-f1-micro"
     ip_configuration {
-      ipv4_enabled    = false
+      ipv4_enabled    = var.enable_public_ip
       private_network = google_compute_network.vpc.id
     }
   }
