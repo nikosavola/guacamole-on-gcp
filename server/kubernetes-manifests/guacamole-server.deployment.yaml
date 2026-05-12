@@ -22,9 +22,7 @@
       app: guacamole-server
       tier: backend
   spec:
-    # replicas: not specified here:
-    # 1. Default is 1.
-    # 2. Will be tuned in real time if DNS horizontal auto-scaling is turned on.
+    replicas: 1
     strategy:
       type: RollingUpdate
       rollingUpdate:
@@ -37,17 +35,20 @@
         labels:
           app: guacamole-server
       spec:
+        nodeSelector:
+          cloud.google.com/compute-class: Performance
+          cloud.google.com/machine-family: c4d
         containers:
         - name: guacamole-server
-          image: docker.io/guacamole/guacd:1.5.5
+          image: docker.io/guacamole/guacd:1.6.0
           imagePullPolicy: IfNotPresent
           resources:
             limits:
-              cpu: 250m
-              memory: 512Mi
+              cpu: 4000m
+              memory: 4Gi
             requests:
-              cpu: 250m
-              memory: 512Mi
+              cpu: 2000m
+              memory: 2Gi
           ports:
           - containerPort: 4822
             name: guacd

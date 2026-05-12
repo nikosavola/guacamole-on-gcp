@@ -40,10 +40,12 @@ secretGenerator:
 resources:
 - client/kubernetes-manifests/guacamole-client.backendconfig.yaml
 - client/kubernetes-manifests/guacamole-client.deployment.yaml
+- client/kubernetes-manifests/guacamole-client.hpa.yaml
 - client/kubernetes-manifests/guacamole-client.ingress.yaml
 - client/kubernetes-manifests/guacamole-client.managedcert.yaml
 - client/kubernetes-manifests/guacamole-client.role.yaml
 - client/kubernetes-manifests/guacamole-client.service.yaml
 - server/kubernetes-manifests/guacamole-server.deployment.yaml
+- server/kubernetes-manifests/guacamole-server.vpa.yaml
 - server/kubernetes-manifests/guacamole-server.service.yaml
 - client/kubernetes-manifests/guacamole-client.rolebinding.yaml

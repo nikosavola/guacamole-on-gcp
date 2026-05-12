@@ -24,7 +24,8 @@
     
     # replicas: not specified here:
     # 1. Default is 1.
-    # 2. Will be tuned in real time if DNS horizontal auto-scaling is turned on.
+    # 2. Will be tuned in real time by HorizontalPodAutoscaler.
+    # 3. VerticalPodAutoscaler will manage resource requests.
     strategy:
       type: RollingUpdate
       rollingUpdate:
@@ -38,6 +39,8 @@
           app: guacamole-client
       spec:
         serviceAccountName: svc-guacamole
+        nodeSelector:
+          cloud.google.com/compute-class: Performance
         containers:
         - name: guacamole-client
           image: guacamole-client-iap
@@ -52,8 +55,8 @@
                 name: db-user-pass
           resources:
             limits:
-              cpu: 1000m
-              memory: 2000Mi
+              cpu: 2000m
+              memory: 4000Mi
             requests:
               cpu: 1000m
               memory: 2000Mi
@@ -65,7 +68,7 @@
             httpGet:
               path: /guacamole
               port: serving-port
-            failureThreshold: 1
+            failureThreshold: 3
             periodSeconds: 10
             initialDelaySeconds: 60
             timeoutSeconds: 5 
@@ -75,7 +78,8 @@
               port: serving-port
             failureThreshold: 30
             periodSeconds: 10
-            initialDelaySeconds: 20
+            initialDelaySeconds: 120
+            timeoutSeconds: 5
         volumes:
           - name: config-volume
             configMap:

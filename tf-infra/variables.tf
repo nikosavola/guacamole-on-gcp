@@ -10,7 +10,7 @@ variable "region" {
 
 variable "zone" {
   description = "For zonal Guacamole resources, deploy into this zone"
-  default     = "us-central1-c"
+  default     = "us-central1-a"
 }
 
 variable "network_name" {
@@ -58,7 +58,6 @@ variable "required_apis" {
     "sqladmin.googleapis.com",
   "stackdriver.googleapis.com"]
 }
-
 variable "name_suffix" {
   description = "Suffix to append to resource names, enabling multiple deployments in the same project."
   type        = string
