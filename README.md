@@ -1,5 +1,8 @@
 # Apache Guacamole on Google Cloud Platform
 
+> **This is a fork of [GoogleCloudPlatform/guacamole-on-gcp](https://github.com/GoogleCloudPlatform/guacamole-on-gcp).**
+> The `modified` branch contains additional changes for multi-region deployments, performance tuning, and compatibility fixes for the deprecated IAP OAuth Admin API.
+
 See the tutorial at [Google Cloud Architecture Center](https://cloud.google.com/architecture/deploy-guacamole-gke)
 
 This is not an officially supported Google product
