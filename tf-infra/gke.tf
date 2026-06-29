@@ -30,7 +30,11 @@ resource "google_container_cluster" "gke" {
 
   enable_autopilot = true
 
-  ip_allocation_policy {}
+  ip_allocation_policy {
+    # Empty default => GKE auto-allocates (unchanged). Pin it (e.g. for the EU
+    # deployment) so a peered network's firewall can allow a stable pod range.
+    cluster_ipv4_cidr_block = var.pods_ipv4_cidr_block != "" ? var.pods_ipv4_cidr_block : null
+  }
 
   maintenance_policy {
     recurring_window {

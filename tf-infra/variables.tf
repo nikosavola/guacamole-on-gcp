@@ -70,6 +70,12 @@ variable "host_subnet_cidr" {
   default     = "10.10.0.0/24"
 }
 
+variable "pods_ipv4_cidr_block" {
+  description = "Pin the GKE pod range (cluster_ipv4_cidr_block). Empty = let GKE auto-allocate. Pin it when a peered network's firewall must allow a stable pod source range."
+  type        = string
+  default     = ""
+}
+
 variable "create_custom_role" {
   description = "Whether to create the IAP JWT verifier custom role. Set false when the role already exists (e.g. a second deployment in the same project)."
   type        = bool
