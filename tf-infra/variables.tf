@@ -64,6 +64,12 @@ variable "name_suffix" {
   default     = ""
 }
 
+variable "host_subnet_cidr" {
+  description = "CIDR for the Guacamole host (GKE node) subnet. Override per deployment to avoid overlap when two deployments must both peer with the same compute VPC."
+  type        = string
+  default     = "10.10.0.0/24"
+}
+
 variable "create_custom_role" {
   description = "Whether to create the IAP JWT verifier custom role. Set false when the role already exists (e.g. a second deployment in the same project)."
   type        = bool

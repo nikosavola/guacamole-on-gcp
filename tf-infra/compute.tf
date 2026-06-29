@@ -23,7 +23,7 @@ resource "google_compute_subnetwork" "subnet" {
   name          = "guacamole-host-subnet${var.name_suffix}"
   region        = var.region
   network       = google_compute_network.vpc.name
-  ip_cidr_range = "10.10.0.0/24"
+  ip_cidr_range = var.host_subnet_cidr
 }
 
 resource "google_compute_router" "router" {
