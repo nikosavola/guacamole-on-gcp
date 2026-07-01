@@ -1,0 +1,17 @@
+provider "google" {
+  region  = var.region
+  zone    = var.zone
+  project = var.project_id
+}
+
+provider "null" {
+}
+
+provider "random" {
+}
+
+provider "external" {
+}
+
+provider "local" {
+}

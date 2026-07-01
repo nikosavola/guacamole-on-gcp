@@ -13,12 +13,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-provider "google" {
-  region  = var.region
-  zone    = var.zone
-  project = var.project_id
-}
-
 provider "kubernetes" {
   host                   = "https://${data.google_container_cluster.gke.endpoint}"
   token                  = data.google_client_config.provider.access_token

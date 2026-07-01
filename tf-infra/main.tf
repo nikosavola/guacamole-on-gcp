@@ -13,24 +13,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-provider "google" {
-  region  = var.region
-  zone    = var.zone
-  project = var.project_id
-}
-
-provider "null" {
-}
-
-provider "random" {
-}
-
-provider "external" {
-}
-
-provider "local" {
-}
-
 locals {
   gke_service_account_roles = [
     "roles/logging.logWriter",
